@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RZ Electric | Smart Billing Network</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER / NAVBAR ===== -->
+  <header class="header">
+    <div class="logo-area">
+      <div class="logo-icon">RZ</div>
+      <div class="logo-text">
+        <span class="logo-title">RZ ELECTRIC</span>
+        <span class="logo-subtitle">Billing Network</span>
+      </div>
+    </div>
+    <div class="header-badge">
+      <span class="dot-live"></span>
+      LIVE SYSTEM
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-wrapper">
+
+    <!-- ========== PAGE 1: LOGIN ========== -->
+    <section id="page-login" class="page-section active">
+      <div class="login-wrap">
+        <div class="login-brand">
+          <div class="login-icon">⚡</div>
+          <div class="login-title">Customer Login</div>
+          <p style="color:var(--rz-muted); font-size:13px; margin-top:6px;">Access your account</p>
+        </div>
+
+        <div class="card">
+          <div class="form-group" style="margin-bottom:16px;">
+            <label class="form-label">Username</label>
+            <input type="text" id="inp-username" class="form-input" placeholder="Enter your username" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label">Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="inp-password" class="form-input" placeholder="Enter your password" />
+              <button class="eye-btn" onclick="togglePassword()" id="eye-icon">👁</button>
+            </div>
+          </div>
+
+          <div id="login-error" class="alert alert-error" style="display:none;">
+            ✗ Incorrect username or password. Please try again.
+          </div>
+
+          <div class="alert alert-info" style="margin-top:16px;">
+            <span>ℹ️</span>
+            <span><strong>Demo Credentials:</strong><br/>
+            Username: <code>admin</code> &nbsp;|&nbsp; Password: <code>ssuet123</code></span>
+          </div>
+
+          <button class="btn btn-primary" style="margin-top:24px;" onclick="doLogin()">
+            🔐 &nbsp; Login
+          </button>
+        </div>
+
+        <p style="text-align:center; margin-top:16px; color:var(--rz-muted); font-size:12px;">
+          SSUET — Introduction to Programming Semester Project
+        </p>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 2: CUSTOMER INFO ========== -->
+    <section id="page-customer" class="page-section">
+      <div class="section-header">
+        <div class="section-tag">Step 1 of 3</div>
+        <h2 class="section-title">Customer <span>Information</span></h2>
+        <p class="section-desc">Enter customer details and meter readings</p>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="steps" style="margin-bottom:36px;">
+        <div class="step-item active">
+          <div class="step-num">1</div>
+          <div class="step-label">Customer</div>
+        </div>
+        <div class="step-connector" id="conn-1"></div>
+        <div class="step-item" id="step-2">
+          <div class="step-num">2</div>
+          <div class="step-label">Bill</div>
+        </div>
+        <div class="step-connector" id="conn-2"></div>
+        <div class="step-item" id="step-3">
+          <div class="step-num">3</div>
+          <div class="step-label">Payment</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Customer Name</label>
+            <input type="text" id="inp-name" class="form-input" placeholder="Enter full name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Meter Number</label>
+            <input type="text" id="inp-meter" class="form-input" placeholder="e.g. RZ-045821" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Previous Reading (kWh)</label>
+            <input type="number" id="inp-prev" class="form-input" placeholder="Pichli reading" min="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Current Reading (kWh)</label>
+            <input type="number" id="inp-curr" class="form-input" placeholder="Today's reading" min="0" />
+          </div>
+        </div>
+
+        <div id="customer-error" class="alert alert-error" style="display:none;"></div>
+
+        <!-- Slab Reference Table -->
+        <hr class="divider" />
+        <p style="font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--rz-muted); margin-bottom:8px;">NEPRA Slab Rates Reference</p>
+        <table class="slab-table">
+          <thead>
+            <tr>
+              <th>Units Range</th>
+              <th>Rate per Unit</th>
+              <th>Category</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0 – 100</td><td>Rs. 3.95</td><td>Protected</td></tr>
+            <tr><td>101 – 200</td><td>Rs. 7.74</td><td>Low Use</td></tr>
+            <tr><td>201 – 300</td><td>Rs. 10.06</td><td>Medium Use</td></tr>
+            <tr><td>301 – 400</td><td>Rs. 12.15</td><td>High Use</td></tr>
+            <tr><td>401+</td><td>Rs. 19.71</td><td>Peak Use</td></tr>
+          </tbody>
+        </table>
+
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="goToLogin()">← Back</button>
+          <button class="btn btn-primary" onclick="generateBill()">⚡ Generate Bill</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 3: BILL DISPLAY ========== -->
+    <section id="page-bill" class="page-section">
+      <div class="section-header">
+        <div class="section-tag">Step 2 of 3</div>
+        <h2 class="section-title">Bill <span>Statement</span></h2>
+        <p class="section-desc">Your electricity bill is ready</p>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="steps" style="margin-bottom:36px;">
+        <div class="step-item done">
+          <div class="step-num">✓</div>
+          <div class="step-label">Customer</div>
+        </div>
+        <div class="step-connector done"></div>
+        <div class="step-item active">
+          <div class="step-num">2</div>
+          <div class="step-label">Bill</div>
+        </div>
+        <div class="step-connector" id="conn-3"></div>
+        <div class="step-item" id="step-3b">
+          <div class="step-num">3</div>
+          <div class="step-label">Payment</div>
+        </div>
+      </div>
+
+      <!-- Units Widget -->
+      <div class="units-display">
+        <div class="unit-cell">
+          <div class="uc-label">Previous</div>
+          <div class="uc-val" id="disp-prev">—</div>
+          <div class="uc-unit">kWh</div>
+        </div>
+        <div class="unit-cell">
+          <div class="uc-label">Current</div>
+          <div class="uc-val" id="disp-curr">—</div>
+          <div class="uc-unit">kWh</div>
+        </div>
+        <div class="unit-cell highlight">
+          <div class="uc-label">Units Used</div>
+          <div class="uc-val" id="disp-units">—</div>
+          <div class="uc-unit">kWh</div>
+        </div>
+      </div>
+
+      <!-- Bill Receipt -->
+      <div class="bill-receipt">
+        <div class="bill-header-strip">
+          <div>
+            <div class="bill-co">RZ ELECTRIC</div>
+            <div class="bill-type">Monthly Electricity Bill</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:11px; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:1px;">Bill Date</div>
+            <div style="font-size:15px; font-weight:700; color:white;" id="disp-date">—</div>
+          </div>
+        </div>
+
+        <div class="bill-meta-row">
+          <div class="bill-meta-cell">
+            <div class="label">Customer</div>
+            <div class="value" id="disp-name">—</div>
+          </div>
+          <div class="bill-meta-cell">
+            <div class="label">Meter No.</div>
+            <div class="value" id="disp-meter">—</div>
+          </div>
+          <div class="bill-meta-cell">
+            <div class="label">Slab Category</div>
+            <div class="value" id="disp-slab">—</div>
+          </div>
+        </div>
+
+        <div class="bill-rows">
+          <div class="bill-row">
+            <span class="row-label">Energy Charges (Base)</span>
+            <span class="row-value" id="disp-energy">Rs. —</span>
+          </div>
+          <div class="bill-row">
+            <span class="row-label">GST (17%)</span>
+            <span class="row-value" id="disp-gst">Rs. —</span>
+          </div>
+          <div class="bill-row">
+            <span class="row-label">Fixed Monthly Charges</span>
+            <span class="row-value">Rs. 75.00</span>
+          </div>
+
+          <div class="bill-total-row">
+            <span class="total-label">TOTAL PAYABLE</span>
+            <span class="total-value" id="disp-total">Rs. —</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-outline" onclick="goToCustomer()">← Edit Info</button>
+        <button class="btn btn-success" onclick="goToPayment()">💳 &nbsp;Proceed to Payment</button>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 4: PAYMENT ========== -->
+    <section id="page-payment" class="page-section">
+      <div class="section-header">
+        <div class="section-tag">Step 3 of 3</div>
+        <h2 class="section-title">Bill <span>Payment</span></h2>
+        <p class="section-desc">Enter payment amount</p>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="steps" style="margin-bottom:36px;">
+        <div class="step-item done">
+          <div class="step-num">✓</div>
+          <div class="step-label">Customer</div>
+        </div>
+        <div class="step-connector done"></div>
+        <div class="step-item done">
+          <div class="step-num">✓</div>
+          <div class="step-label">Bill</div>
+        </div>
+        <div class="step-connector done"></div>
+        <div class="step-item active">
+          <div class="step-num">3</div>
+          <div class="step-label">Payment</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <!-- Due Amount Reminder -->
+        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--rz-panel); border:1px solid var(--rz-border); border-radius:8px; padding:16px 20px; margin-bottom:24px;">
+          <div>
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--rz-muted); font-weight:700;">Total Amount Due</div>
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:800; color:var(--rz-amber);" id="pay-total-disp">Rs. —</div>
+          </div>
+          <div style="font-size:36px;">🧾</div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label">Payment Amount (Rs.)</label>
+          <input type="number" id="inp-payment" class="form-input" placeholder="Enter amount" min="0" style="font-size:18px; font-weight:600;" />
+        </div>
+
+        <div id="payment-error" class="alert alert-error" style="display:none;"></div>
+
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="goToBill()">← View Bill</button>
+          <button class="btn btn-primary" onclick="processPayment()">✅ &nbsp;Pay Bill</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 5: PAYMENT RESULT ========== -->
+    <section id="page-result" class="page-section">
+      <div class="section-header">
+        <div class="section-tag">Complete</div>
+        <h2 class="section-title">Payment <span>Status</span></h2>
+      </div>
+
+      <div class="card">
+        <div class="payment-result">
+          <span class="big-icon" id="result-icon">✅</span>
+          <div style="display:flex; justify-content:center; margin-bottom:16px;">
+            <span class="status-badge" id="result-badge">PAID</span>
+          </div>
+          <h3 id="result-title">Bill Paid!</h3>
+          <p id="result-message">Your payment was processed successfully. Thank you!</p>
+        </div>
+
+        <div class="payment-summary-grid">
+          <div class="psummary-cell">
+            <div class="ps-label">Total Bill</div>
+            <div class="ps-value" id="res-total">—</div>
+          </div>
+          <div class="psummary-cell">
+            <div class="ps-label">Amount Paid</div>
+            <div class="ps-value" id="res-paid">—</div>
+          </div>
+          <div class="psummary-cell">
+            <div class="ps-label">Customer</div>
+            <div class="ps-value" id="res-name">—</div>
+          </div>
+          <div class="psummary-cell">
+            <div class="ps-label">Meter No.</div>
+            <div class="ps-value" id="res-meter">—</div>
+          </div>
+        </div>
+
+        <div class="btn-group" style="margin-top:28px;">
+          <button class="btn btn-outline" onclick="newBill()">🔄 New Bill</button>
+          <button class="btn btn-primary" onclick="window.print()">🖨️ Print Receipt</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <strong>RZ ELECTRIC</strong> &nbsp;|&nbsp; Smart Billing Network &nbsp;|&nbsp;
+    SSUET — Introduction to Programming (C++) &nbsp;|&nbsp;
+    Semester Project &nbsp;|&nbsp; Beginner Level
+  </footer>
+
+  <!-- ===== JAVASCRIPT (C++ Logic Replicated in JS) ===== -->
+  <script>
+    // =============================================
+    // GLOBAL STATE - Customer & Bill Data Store
+    // =============================================
+    let state = {
+      customerName: '',
+      meterNumber: '',
+      prevReading: 0,
+      currReading: 0,
+      units: 0,
+      baseAmount: 0,
+      gstAmount: 0,
+      totalBill: 0,
+      paymentAmount: 0
+    };
+
+    // =============================================
+    // HELPER: Show/Hide Pages
+    // =============================================
+    function showPage(id) {
+      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // =============================================
+    // LOGIN FUNCTION (mirrors C++ login())
+    // Correct: admin / ssuet123
+    // =============================================
+    function doLogin() {
+      const username = document.getElementById('inp-username').value.trim();
+      const password = document.getElementById('inp-password').value.trim();
+      const errBox   = document.getElementById('login-error');
+
+      const correctUsername = 'admin';
+      const correctPassword = 'ssuet123';
+
+      // C++ if-else logic
+      if (username === correctUsername && password === correctPassword) {
+        errBox.style.display = 'none';
+        showPage('page-customer');
+      } else {
+        errBox.style.display = 'flex';
+      }
+    }
+
+    // Allow Enter key on login
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const activePage = document.querySelector('.page-section.active');
+        if (activePage.id === 'page-login') doLogin();
+        if (activePage.id === 'page-customer') generateBill();
+        if (activePage.id === 'page-payment') processPayment();
+      }
+    });
+
+    // Toggle password visibility
+    function togglePassword() {
+      const inp = document.getElementById('inp-password');
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+    }
+
+    // =============================================
+    // CALCULATE UNITS (mirrors C++ calculateUnits())
+    // =============================================
+    function calculateUnits(curr, prev) {
+      return curr - prev;
+    }
+
+    // =============================================
+    // CALCULATE BILL (mirrors C++ calculateBill())
+    // NEPRA Slab Rates with GST
+    // =============================================
+    function calculateBill(units) {
+      let baseAmount = 0;
+
+      // if-else slab rates — exactly like C++ code
+      if (units <= 100) {
+        baseAmount = units * 3.95;
+      } else if (units <= 200) {
+        baseAmount = (100 * 3.95) + ((units - 100) * 7.74);
+      } else if (units <= 300) {
+        baseAmount = (100 * 3.95) + (100 * 7.74) + ((units - 200) * 10.06);
+      } else if (units <= 400) {
+        baseAmount = (100 * 3.95) + (100 * 7.74) + (100 * 10.06) + ((units - 300) * 12.15);
+      } else {
+        baseAmount = (100 * 3.95) + (100 * 7.74) + (100 * 10.06) + (100 * 12.15) + ((units - 400) * 19.71);
+      }
+
+      const gstAmount    = baseAmount * 0.17;
+      const fixedCharges = 75.0;
+      const totalBill    = baseAmount + gstAmount + fixedCharges;
+
+      return { baseAmount, gstAmount, totalBill };
+    }
+
+    // =============================================
+    // GET SLAB LABEL
+    // =============================================
+    function getSlabLabel(units) {
+      if (units <= 100)  return 'Protected (0-100)';
+      if (units <= 200)  return 'Low Use (101-200)';
+      if (units <= 300)  return 'Medium Use (201-300)';
+      if (units <= 400)  return 'High Use (301-400)';
+      return 'Peak Use (401+)';
+    }
+
+    // =============================================
+    // GENERATE BILL — Validates & Shows Bill Page
+    // =============================================
+    function generateBill() {
+      const name  = document.getElementById('inp-name').value.trim();
+      const meter = document.getElementById('inp-meter').value.trim();
+      const prev  = parseFloat(document.getElementById('inp-prev').value);
+      const curr  = parseFloat(document.getElementById('inp-curr').value);
+      const errBox = document.getElementById('customer-error');
+
+      // Validation using if-else (C++ style)
+      if (!name || !meter) {
+        errBox.style.display = 'flex';
+        errBox.textContent = '✗ Customer name and meter number are required.';
+        return;
+      }
+      if (isNaN(prev) || isNaN(curr)) {
+        errBox.style.display = 'flex';
+        errBox.textContent = '✗ Please enter valid readings (numbers only).';
+        return;
+      }
+      if (curr < prev) {
+        errBox.style.display = 'flex';
+        errBox.textContent = '✗ Current reading cannot be less than previous reading.';
+        return;
+      }
+
+      errBox.style.display = 'none';
+
+      // Calculate
+      const units  = calculateUnits(curr, prev);
+      const result = calculateBill(units);
+
+      // Store in state
+      state.customerName = name;
+      state.meterNumber  = meter;
+      state.prevReading  = prev;
+      state.currReading  = curr;
+      state.units        = units;
+      state.baseAmount   = result.baseAmount;
+      state.gstAmount    = result.gstAmount;
+      state.totalBill    = result.totalBill;
+
+      // Populate bill display
+      document.getElementById('disp-prev').textContent  = prev.toFixed(0);
+      document.getElementById('disp-curr').textContent  = curr.toFixed(0);
+      document.getElementById('disp-units').textContent = units.toFixed(0);
+      document.getElementById('disp-name').textContent  = name;
+      document.getElementById('disp-meter').textContent = meter;
+      document.getElementById('disp-slab').textContent  = getSlabLabel(units);
+      document.getElementById('disp-energy').textContent = 'Rs. ' + result.baseAmount.toFixed(2);
+      document.getElementById('disp-gst').textContent    = 'Rs. ' + result.gstAmount.toFixed(2);
+      document.getElementById('disp-total').textContent  = 'Rs. ' + result.totalBill.toFixed(2);
+
+      // Date
+      const now = new Date();
+      document.getElementById('disp-date').textContent = now.toLocaleDateString('en-PK', {
+        day:'2-digit', month:'short', year:'numeric'
+      });
+
+      // Highlight active slab row in table
+      highlightSlabRow(units);
+
+      showPage('page-bill');
+    }
+
+    // Highlight matching slab row
+    function highlightSlabRow(units) {
+      const rows = document.querySelectorAll('.slab-table tbody tr');
+      rows.forEach(r => r.classList.remove('active-slab'));
+      if      (units <= 100) rows[0].classList.add('active-slab');
+      else if (units <= 200) rows[1].classList.add('active-slab');
+      else if (units <= 300) rows[2].classList.add('active-slab');
+      else if (units <= 400) rows[3].classList.add('active-slab');
+      else                   rows[4].classList.add('active-slab');
+    }
+
+    // =============================================
+    // PAYMENT STATUS (mirrors C++ paymentStatus())
+    // =============================================
+    function processPayment() {
+      const payAmt  = parseFloat(document.getElementById('inp-payment').value);
+      const errBox  = document.getElementById('payment-error');
+
+      if (isNaN(payAmt) || payAmt < 0) {
+        errBox.style.display = 'flex';
+        errBox.textContent = '✗ Please enter a valid payment amount.';
+        return;
+      }
+
+      errBox.style.display = 'none';
+      state.paymentAmount = payAmt;
+
+      const total = state.totalBill;
+      const badge = document.getElementById('result-badge');
+      const icon  = document.getElementById('result-icon');
+      const title = document.getElementById('result-title');
+      const msg   = document.getElementById('result-message');
+
+      // C++ paymentStatus() if-else logic
+      if (payAmt >= total) {
+        const change = payAmt - total;
+        badge.className   = 'status-badge status-paid';
+        badge.textContent = '✓ PAID';
+        icon.textContent  = '✅';
+        title.textContent = 'Bill Fully Paid!';
+        msg.innerHTML     = 'Your payment was received successfully. Thank you!'
+                          + (change > 0 ? `<br>Change due: <strong>Rs. ${change.toFixed(2)}</strong>` : '');
+      } else if (payAmt > 0) {
+        const remaining = total - payAmt;
+        badge.className   = 'status-badge status-partial';
+        badge.textContent = '⚠ PARTIALLY PAID';
+        icon.textContent  = '⚠️';
+        title.textContent = 'Partial Payment Received';
+        msg.innerHTML     = `Remaining amount <strong>Rs. ${remaining.toFixed(2)}</strong> — please pay soon or a disconnection notice will be issued.`;
+      } else {
+        badge.className   = 'status-badge status-unpaid';
+        badge.textContent = '✗ UNPAID';
+        icon.textContent  = '❌';
+        title.textContent = 'Payment Not Received';
+        msg.innerHTML     = 'No payment was made. Please pay the full bill before the due date or the connection will be disconnected.';
+      }
+
+      // Result summary
+      document.getElementById('res-total').textContent = 'Rs. ' + total.toFixed(2);
+      document.getElementById('res-paid').textContent  = 'Rs. ' + payAmt.toFixed(2);
+      document.getElementById('res-name').textContent  = state.customerName;
+      document.getElementById('res-meter').textContent = state.meterNumber;
+
+      showPage('page-result');
+    }
+
+    // =============================================
+    // NAVIGATION HELPERS
+    // =============================================
+    function goToLogin()    { showPage('page-login'); }
+    function goToCustomer() { showPage('page-customer'); }
+    function goToBill()     { showPage('page-bill'); }
+    function goToPayment()  {
+      document.getElementById('pay-total-disp').textContent = 'Rs. ' + state.totalBill.toFixed(2);
+      showPage('page-payment');
+    }
+    function newBill()      {
+      // Reset form fields
+      ['inp-name','inp-meter','inp-prev','inp-curr','inp-payment'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      state = {};
+      showPage('page-customer');
+    }
+  </script>
+
+</body>
+</html>
