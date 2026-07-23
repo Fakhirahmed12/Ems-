@@ -1,4 +1,4 @@
-[EMS-README.md](https://github.com/user-attachments/files/30326966/EMS-README.md)
+[EMS-README (1).md](https://github.com/user-attachments/files/30327071/EMS-README.1.md)
 <div align="center">
 
 <img src="./assets/ems-banner.svg" width="100%" alt="EMS Electric Billing System"/>
@@ -11,6 +11,9 @@
 ![HTML](https://img.shields.io/badge/HTML-1a1a1a?style=for-the-badge&logo=html5&logoColor=B8A369)
 ![CSS](https://img.shields.io/badge/CSS-1a1a1a?style=for-the-badge&logo=css3&logoColor=B8A369)
 ![JavaScript](https://img.shields.io/badge/JavaScript-1a1a1a?style=for-the-badge&logo=javascript&logoColor=B8A369)
+
+
+[![Live Demo](https://img.shields.io/badge/🌐%20Live%20Demo-B8A369?style=for-the-badge&labelColor=1a1a1a)](https://fakhirahmed12.github.io/Ems-/)
 
 </div>
 
