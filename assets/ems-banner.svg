@@ -1,0 +1,56 @@
+<svg width="100%" height="200" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#1c1a14"/>
+    </linearGradient>
+    <linearGradient id="goldText" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8f7f4e"/>
+      <stop offset="50%" stop-color="#B8A369"/>
+      <stop offset="100%" stop-color="#e8d9a8"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="-1 0;1 0;-1 0" dur="4s" repeatCount="indefinite"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#B8A369" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#B8A369" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="200" fill="url(#bg)"/>
+
+  <!-- pulsing glow behind the bolt -->
+  <circle cx="110" cy="100" r="60" fill="url(#glow)">
+    <animate attributeName="r" values="45;65;45" dur="2.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- lightning bolt -->
+  <path d="M125 40 L70 108 H100 L85 165 L145 92 H112 Z"
+        fill="#B8A369" stroke="#e8d9a8" stroke-width="1.5">
+    <animate attributeName="opacity" values="1;0.55;1" dur="1.3s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- title -->
+  <text x="185" y="95" font-family="Segoe UI, Verdana, sans-serif" font-size="42" font-weight="800" fill="url(#goldText)">
+    EMS
+  </text>
+  <text x="185" y="130" font-family="Segoe UI, Verdana, sans-serif" font-size="20" fill="#9a9a95">
+    Electric Billing System
+  </text>
+
+  <!-- animated dashed circuit line -->
+  <line x1="185" y1="150" x2="750" y2="150" stroke="#B8A369" stroke-width="2" stroke-dasharray="6 6" opacity="0.6">
+    <animate attributeName="stroke-dashoffset" values="0;-24" dur="1.5s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- small pulsing nodes along the circuit line -->
+  <circle cx="320" cy="150" r="4" fill="#B8A369">
+    <animate attributeName="r" values="3;6;3" dur="1.8s" begin="0s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="500" cy="150" r="4" fill="#B8A369">
+    <animate attributeName="r" values="3;6;3" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="680" cy="150" r="4" fill="#B8A369">
+    <animate attributeName="r" values="3;6;3" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
