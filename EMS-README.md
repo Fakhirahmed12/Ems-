@@ -1,66 +1,65 @@
-# ⚡ Electricity Management System (EMS)
+[EMS-README (1).md](https://github.com/user-attachments/files/30327053/EMS-README.1.md)
+<div align="center">
 
-A console-based **C++** application that simulates the electricity billing process used by utility companies like K-Electric in Pakistan, based on NEPRA slab rates.
+<img src="./assets/ems-banner.svg" width="100%" alt="EMS Electric Billing System"/>
 
-## 📖 About
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&pause=1200&color=B8A369&center=true&vCenter=true&width=560&lines=%3E+Enter+units+consumed...;%3E+Calculating+bill...;%3E+Bill+generated+%E2%9C%93;%3E+Printing+receipt..." alt="Billing terminal animation" />
 
-EMS automates electricity bill generation: it lets an admin log in securely, enter customer meter readings, calculates the bill using NEPRA's tiered slab rates plus GST and fixed charges, and processes payment with real-time status.
+<br/><br/>
 
-## ✨ Features
+![Status](https://img.shields.io/badge/status-active-B8A369?style=for-the-badge&labelColor=1a1a1a)
+![HTML](https://img.shields.io/badge/HTML-1a1a1a?style=for-the-badge&logo=html5&logoColor=B8A369)
+![CSS](https://img.shields.io/badge/CSS-1a1a1a?style=for-the-badge&logo=css3&logoColor=B8A369)
+![JavaScript](https://img.shields.io/badge/JavaScript-1a1a1a?style=for-the-badge&logo=javascript&logoColor=B8A369)
 
-- Secure admin login (username/password verification)
-- Customer info entry — name, meter number, previous & current readings
-- Automatic unit calculation from meter readings
-- NEPRA slab-rate billing across 5 pricing tiers
-- Detailed bill breakdown: energy charges, 17% GST, fixed charges
-- Payment processing with **Paid / Partially Paid / Unpaid** status
-- Change calculation for overpayment
+[![Live Demo](https://img.shields.io/badge/🌐%20Live%20Demo-B8A369?style=for-the-badge&labelColor=1a1a1a)](https://fakhirahmed12.github.io/Ems-/)
+
+</div>
+
+---
+
+**EMS Electric Billing System** is a billing application that calculates electricity bills based on the number of units consumed. It also generates a printable bill form, making the billing process simple, fast, and efficient.
+
+## ⚡ Features
+
+| | |
+|---|---|
+| 🔢 **Unit-Based Calculation** | Bill amount calculated directly from units consumed |
+| 🧾 **Automatic Bill Generation** | Instantly generates a formatted bill on submission |
+| 🖨️ **Printable Receipt** | One-click print of the generated bill form |
+| 🎯 **Clean Interface** | Simple, distraction-free UI for fast data entry |
+| ⚙️ **Fast & Accurate** | Calculations run instantly, no manual math needed |
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Language | C++ |
-| Concepts Used | Variables & Data Types, Conditionals, User-Defined Functions, `<iomanip>` formatting |
-| Functions | `login()`, `calculateUnits()`, `calculateBill()`, `displayBill()`, `paymentStatus()` |
+![Skills](https://skillicons.dev/icons?i=html,css,js,cpp&theme=dark)
 
-## 🚀 How to Run
+- HTML
+- CSS
+- JavaScript
+- C++ (backend logic)
 
-```bash
-g++ ems.cpp -o ems
-./ems
-```
+## 📖 Usage
 
-**Demo login:** `admin` / `ssuet123`
-
-## 🎯 How It Works
-
-1. Admin logs in with a username and password.
-2. Admin enters customer name, meter number, previous reading, and current reading.
-3. `calculateUnits()` computes units consumed (current − previous reading).
-4. `calculateBill()` applies NEPRA slab rates to those units, then adds 17% GST and a fixed PKR 75 charge.
-5. `displayBill()` prints a fully formatted bill statement.
-6. Admin enters the payment amount, and `paymentStatus()` reports Paid, Partially Paid, or Unpaid — with change shown for overpayment.
-
-## ⚠️ Limitations
-
-- Handles one customer per run (no multi-customer records)
-- No persistent storage — data isn't saved between sessions
-- Console-only interface, no GUI
-- Login credentials are hardcoded in source
-- Single administrator only
+1. Enter customer details
+2. Add the number of units consumed
+3. Bill is generated automatically
+4. Print the bill form if needed
 
 ## 🔮 Future Improvements
 
-- File handling (`ofstream`/`ifstream`) to save customer & billing history
-- Support multiple customers per session using arrays/loops
-- GUI version using the Qt Framework
-- SQLite database for persistent storage
-- Monthly bill history retrieval
-- SMS/email notification simulation
-- In-app credential management
-- Input validation for non-numeric entries
+- [ ] Database integration
+- [ ] Customer billing history
+- [ ] PDF export
+- [ ] Bill search feature
+- [ ] Login system
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is for educational and personal use.
+
+---
+
+<div align="center">
+<sub>⚡ Built for learning, billed for real. ⚡</sub>
+</div>
